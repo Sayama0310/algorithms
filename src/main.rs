@@ -1,4 +1,4 @@
-use crate::sort::bubble_sort::bubble_sort;
+use crate::sort::bubble_sort;
 
 mod sort;
 
