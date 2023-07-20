@@ -8,3 +8,16 @@ pub fn bubble_sort<T: Ord>(array: &mut [T]) {
         }
     }
 }
+
+/// Test cases
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_bubble_sort() {
+        let mut array = [1, 5, 2, 3, 4];
+        bubble_sort(&mut array);
+        assert_eq!(array, [1, 2, 3, 4, 5]);
+    }
+}
