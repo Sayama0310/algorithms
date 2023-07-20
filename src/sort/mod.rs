@@ -67,6 +67,36 @@ fn merge<T: Ord + Copy>(array: &mut [T], mid: usize) {
     array.copy_from_slice(&temp);
 }
 
+pub fn heap_sort<T: Ord>(array: &mut [T]) {
+    let len = array.len();
+    if len <= 1 {
+        return;
+    }
+    for i in (0..len / 2).rev() {
+        heapify(array, len, i);
+    }
+    for i in (1..len).rev() {
+        array.swap(0, i);
+        heapify(array, i, 0);
+    }
+}
+
+fn heapify<T: Ord>(array: &mut [T], len: usize, i: usize) {
+    let mut largest = i;
+    let left = 2 * i + 1;
+    let right = 2 * i + 2;
+    if left < len && array[left] > array[largest] {
+        largest = left;
+    }
+    if right < len && array[right] > array[largest] {
+        largest = right;
+    }
+    if largest != i {
+        array.swap(i, largest);
+        heapify(array, len, largest);
+    }
+}
+
 /// Test cases
 #[cfg(test)]
 mod tests {
@@ -90,6 +120,13 @@ mod tests {
     fn test_merge_sort() {
         let mut array = [1, 5, 2, 3, 4];
         merge_sort(&mut array);
+        assert_eq!(array, [1, 2, 3, 4, 5]);
+    }
+
+    #[test]
+    fn test_heap_sort() {
+        let mut array = [1, 5, 2, 3, 4];
+        heap_sort(&mut array);
         assert_eq!(array, [1, 2, 3, 4, 5]);
     }
 }
