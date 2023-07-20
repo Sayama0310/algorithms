@@ -33,6 +33,40 @@ fn partition<T: Ord>(array: &mut [T]) -> usize {
     i
 }
 
+pub fn merge_sort<T: Ord + Copy>(array: &mut [T]) {
+    let len = array.len();
+    if len <= 1 {
+        return;
+    }
+    let mid = len / 2;
+    merge_sort(&mut array[0..mid]);
+    merge_sort(&mut array[mid..len]);
+    merge(array, mid);
+}
+
+fn merge<T: Ord + Copy>(array: &mut [T], mid: usize) {
+    let len = array.len();
+    let mut temp = Vec::with_capacity(len);
+    let mut i = 0;
+    let mut j = mid;
+    while i < mid && j < len {
+        if array[i] < array[j] {
+            temp.push(array[i]);
+            i += 1;
+        } else {
+            temp.push(array[j]);
+            j += 1;
+        }
+    }
+    if i < mid {
+        temp.extend_from_slice(&array[i..mid]);
+    }
+    if j < len {
+        temp.extend_from_slice(&array[j..len]);
+    }
+    array.copy_from_slice(&temp);
+}
+
 /// Test cases
 #[cfg(test)]
 mod tests {
@@ -49,6 +83,13 @@ mod tests {
     fn test_quick_sort() {
         let mut array = [1, 5, 2, 3, 4];
         quick_sort(&mut array);
+        assert_eq!(array, [1, 2, 3, 4, 5]);
+    }
+
+    #[test]
+    fn test_merge_sort() {
+        let mut array = [1, 5, 2, 3, 4];
+        merge_sort(&mut array);
         assert_eq!(array, [1, 2, 3, 4, 5]);
     }
 }
