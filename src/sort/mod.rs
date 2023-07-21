@@ -97,6 +97,20 @@ fn heapify<T: Ord>(array: &mut [T], len: usize, i: usize) {
     }
 }
 
+pub fn insertion_sort<T: Ord>(array: &mut [T]) {
+    let len = array.len();
+    if len <= 1 {
+        return;
+    }
+    for i in 1..len {
+        let mut j = i;
+        while j > 0 && array[j - 1] > array[j] {
+            array.swap(j - 1, j);
+            j -= 1;
+        }
+    }
+}
+
 /// Test cases
 #[cfg(test)]
 mod tests {
@@ -127,6 +141,13 @@ mod tests {
     fn test_heap_sort() {
         let mut array = [1, 5, 2, 3, 4];
         heap_sort(&mut array);
+        assert_eq!(array, [1, 2, 3, 4, 5]);
+    }
+
+    #[test]
+    fn test_insertion_sort() {
+        let mut array = [1, 5, 2, 3, 4];
+        insertion_sort(&mut array);
         assert_eq!(array, [1, 2, 3, 4, 5]);
     }
 }
