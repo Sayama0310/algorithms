@@ -8,4 +8,11 @@ fn main() {
 
     let primes = arithmetic::sieve_of_eratosthenes(100);
     println!("Primes: {:?}", primes);
+
+    let egyptian_fraction = arithmetic::egyptian_fraction(4, 13);
+    println!("Egyptian fraction: {}", egyptian_fraction
+        .iter()
+        .map(|fraction| format!("{}", fraction))
+        .collect::<Vec<String>>()
+        .join(", "));
 }
